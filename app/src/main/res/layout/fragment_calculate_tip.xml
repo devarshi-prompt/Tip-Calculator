@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <import type="android.view.View"/>
+        <variable
+            name="viewmodel"
+            type="com.example.tipcalculator.ui.viewmodel.TipViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ui.CalculateTipFragment">
+
+        <TextView
+            android:id="@+id/textViewTotalAmountLabel"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="Total Amount"
+            android:textAlignment="center"
+            android:textColor="?android:textColorPrimary"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/textViewTotalAmount"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:text="@{`Rs.`+viewmodel.totalAmount+` /person`}"
+            android:textAlignment="center"
+            android:textColor="?android:textColorPrimary"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textViewTotalAmountLabel" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/textInputLayout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textViewTotalAmount">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/editTextAmountToSplit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Amount to split"
+                android:text='@={viewmodel.amountToSplit}'
+                android:afterTextChanged="@{viewmodel::calculateTip}"
+                android:maxLines="1"
+                android:inputType="numberDecimal"
+                android:textColor="?android:textColorPrimary"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:id="@+id/textViewSplitLabel"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="50dp"
+            android:text="Split"
+            android:textColor="?android:textColorPrimary"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textInputLayout" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/materialButtonAddCount"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_gravity="center"
+            android:layout_marginStart="50dp"
+            android:layout_marginEnd="40dp"
+            android:insetLeft="0dp"
+            android:insetTop="0dp"
+            android:insetRight="0dp"
+            android:insetBottom="0dp"
+            android:onClick="@{viewmodel::onClickPersonIncrement}"
+            android:enabled="@{viewmodel.enableTipParams}"
+            app:cornerRadius="80dp"
+            app:icon="@drawable/ic_add"
+            app:iconGravity="textStart"
+            app:iconPadding="0dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/textViewSplitLabel"
+            app:layout_constraintTop_toTopOf="@+id/textViewSplitLabel" />
+
+        <TextView
+            android:id="@+id/textViewPersonCount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{viewmodel.personCount}"
+            android:textAlignment="center"
+            android:textColor="?android:textColorPrimary"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toStartOf="@+id/materialButtonRemoveCount"
+            app:layout_constraintStart_toEndOf="@+id/materialButtonAddCount"
+            app:layout_constraintTop_toTopOf="@+id/materialButtonAddCount" />
+
+        <TextView
+            android:id="@+id/textViewPersonHeader"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{viewmodel.personHeader}"
+            android:textColor="?android:textColorPrimary"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="@+id/materialButtonRemoveCount"
+            app:layout_constraintStart_toStartOf="@+id/materialButtonAddCount"
+            app:layout_constraintTop_toBottomOf="@+id/textViewPersonCount" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/materialButtonRemoveCount"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_gravity="center"
+            android:layout_marginStart="70dp"
+            android:insetLeft="0dp"
+            android:insetTop="0dp"
+            android:insetRight="0dp"
+            android:insetBottom="0dp"
+            android:onClick="@{viewmodel::onClickPersonDecrement}"
+            android:enabled="@{viewmodel.enableTipParams}"
+            app:cornerRadius="80dp"
+            app:icon="@drawable/ic_remove"
+            app:iconGravity="textStart"
+            app:iconPadding="0dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/materialButtonAddCount"
+            app:layout_constraintTop_toTopOf="@+id/materialButtonAddCount" />
+
+        <TextView
+            android:id="@+id/textViewTipLabel"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Tip"
+            android:textColor="?android:textColorPrimary"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="40dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textViewSplitLabel" />
+
+        <TextView
+            android:id="@+id/textViewTipAmount"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@{`Rs.`+viewmodel.tipAmount}"
+            android:textAlignment="center"
+            android:textColor="?android:textColorPrimary"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="@+id/materialButtonRemoveCount"
+            app:layout_constraintStart_toStartOf="@+id/materialButtonAddCount"
+            app:layout_constraintTop_toTopOf="@+id/textViewTipLabel" />
+
+        <androidx.appcompat.widget.AppCompatSeekBar
+            android:id="@+id/seekBarTip"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="100dp"
+            android:max="@{viewmodel.maxProgress}"
+            android:progress="1"
+            android:onProgressChanged="@{viewmodel::showTipPercentAndAmount}"
+            app:layout_constraintEnd_toEndOf="@+id/textViewTipAmount"
+            app:layout_constraintStart_toStartOf="@+id/textViewTipLabel"
+            app:layout_constraintTop_toBottomOf="@+id/textViewTipLabel" />
+
+        <TextView
+            android:id="@+id/textViewTipPercentage"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@{viewmodel.tipPercentage+` %`}"
+            android:textColor="?android:textColorPrimary"
+            android:textSize="16sp"
+            android:textAlignment="center"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/seekBarTip" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>
