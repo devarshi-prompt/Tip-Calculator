@@ -9,7 +9,7 @@ import androidx.databinding.ObservableInt
 import androidx.lifecycle.ViewModel
 
 class TipViewModel : ViewModel() {
-    val totalAmount = ObservableField("0")
+    val totalAmount = ObservableField("0.00")
     val amountToSplit = ObservableField("")
     val personCount = ObservableField("1")
     val tipAmount = ObservableField("0.00")
@@ -41,7 +41,6 @@ class TipViewModel : ViewModel() {
     }
 
     fun calculateTip(editable: Editable){
-        totalAmount.set(amountToSplit.get().toString())
         if (editable.toString().isEmpty()){
             tipAmount.set("0.00")
             tipPercentage.set("0")
@@ -53,6 +52,7 @@ class TipViewModel : ViewModel() {
         } else{
             maxProgress.set(100)
             enableTipParams.set(true)
+            totalAmount.set(String.format("%.2f",amountToSplit.get().toString().toDouble()))
         }
     }
 
