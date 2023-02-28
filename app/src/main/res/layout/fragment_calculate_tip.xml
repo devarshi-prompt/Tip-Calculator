@@ -58,10 +58,12 @@
                 android:layout_height="wrap_content"
                 android:hint="Amount to split"
                 android:text='@={viewmodel.amountToSplit}'
-                android:afterTextChanged="@{viewmodel::calculateTip}"
+                android:afterTextChanged="@{viewmodel::afterEditTextChanged}"
                 android:maxLines="1"
                 android:inputType="numberDecimal"
-                android:textColor="?android:textColorPrimary"/>
+                android:textColor="?android:textColorPrimary"
+                android:focusable="true"
+                android:focusableInTouchMode="true"/>
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -174,7 +176,7 @@
             android:layout_marginTop="100dp"
             android:max="@{viewmodel.maxProgress}"
             android:progress="1"
-            android:onProgressChanged="@{viewmodel::showTipPercentAndAmount}"
+            android:onProgressChanged="@{viewmodel::onSeekBarChange}"
             app:layout_constraintEnd_toEndOf="@+id/textViewTipAmount"
             app:layout_constraintStart_toStartOf="@+id/textViewTipLabel"
             app:layout_constraintTop_toBottomOf="@+id/textViewTipLabel" />
@@ -190,6 +192,18 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/seekBarTip" />
+
+        <TextView
+            android:id="@+id/textViewTipAlert"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:text="*Require to set tip percentage"
+            android:textColor="@color/red"
+            android:visibility="@{viewmodel.checkTipPercentage?View.VISIBLE:View.GONE}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textViewTipPercentage" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
